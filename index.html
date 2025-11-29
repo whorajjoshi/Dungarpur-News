@@ -102,11 +102,19 @@ footer{background:#111;color:#ccc;text-align:center;padding:12px;font-size:12px;
 <script>
 function updateDateTime(){
   const now = new Date();
+
   const day = now.getDate();
   const month = now.toLocaleString('en-US', { month: 'short' });
   const year = now.getFullYear();
+
+  let hrs = now.getHours();
+  let mins = now.getMinutes();
+  let ampm = hrs >= 12 ? "PM" : "AM";
+  hrs = hrs % 12 || 12;
+  mins = mins < 10 ? "0" + mins : mins;
+
   document.getElementById('live-date').innerText = `${day} ${month} ${year}`;
-  document.getElementById('live-time').innerText = now.toLocaleTimeString();
+  document.getElementById('live-time').innerText = `${hrs}:${mins} ${ampm}`;
 }
 setInterval(updateDateTime,1000);
 updateDateTime();
@@ -144,12 +152,11 @@ updateDateTime();
 
 <h2 class="section-title">Top Local News</h2>
 
-<!-- GRID where news auto-loads -->
 <div class="grid"></div>
 
 <footer>© 2025 Dungarpur Live News</footer>
 
-<!-- POPUP HTML -->
+<!-- POPUP -->
 <div class="popup-bg" id="popup">
   <div class="popup-box">
     <div class="popup-title" id="pTitle"></div>
@@ -162,7 +169,6 @@ updateDateTime();
   </div>
 </div>
 
-<!-- POPUP JS -->
 <script>
 function openPopup(title, text, date="") {
   document.getElementById("pTitle").innerText = title;
@@ -191,8 +197,18 @@ function shareNews(){
 }
 </script>
 
-<!-- GOOGLE SHEET AUTO NEWS (WITH DATE) -->
+<!-- SHEET NEWS -->
 <script>
+function formatSheetDate(d){
+  // Input: 29/11/2025 10:45 PM
+  let [datePart, timePart] = d.split(" ");
+  let [dd, mm, yyyy] = datePart.split("/");
+
+  let monthName = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][mm-1];
+
+  return `${dd} ${monthName} ${yyyy} — ${timePart}`;
+}
+
 async function loadNews() {
   const url = "https://docs.google.com/spreadsheets/d/16Lzi_aU5Rg1Py7A0PGbKNJ-1Yu7TjUDCMJa1_R7KnrA/gviz/tq?tqx=out:json";
 
@@ -209,14 +225,16 @@ async function loadNews() {
       let title = r.c[0]?.v || "";
       let img = r.c[1]?.v || "";
       let desc = r.c[2]?.v || "";
-      let date = r.c[3]?.v || "No Date";
+      let rawDate = r.c[3]?.v || "";
+
+      let finalDate = formatSheetDate(rawDate);
 
       html += `
-        <div class="card" onclick="openPopup('${title.replace(/'/g," ")}','${desc.replace(/'/g," ")}','${date}')">
+        <div class="card" onclick="openPopup('${title.replace(/'/g," ")}','${desc.replace(/'/g," ")}','${finalDate}')">
           <img src="${img}">
           <div class="content">
             <h3>${title}</h3>
-            <p style="color:#d60000;font-size:12px;font-weight:700;margin-top:4px;">📅 ${date}</p>
+            <p style="color:#d60000;font-size:12px;font-weight:700;margin-top:4px;">📅 ${finalDate}</p>
             <p>${desc.substring(0, 60)}...</p>
           </div>
         </div>
@@ -233,7 +251,7 @@ async function loadNews() {
 loadNews();
 </script>
 
-<!-- CLICK EVENTS FOR HIGHLIGHTS -->
+<!-- CLICK EVENTS -->
 <script>
 document.querySelectorAll(".highlight").forEach(box => {
   box.style.cursor = "pointer";
