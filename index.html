@@ -4,182 +4,81 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Dungarpur Live News</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:"Poppins",sans-serif;
-}
-body{
-  background:#f7f7f7;
-  color:#222;
-  overflow-x:hidden;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+body{background:#f7f7f7;color:#222;overflow-x:hidden;}
+
+/* 🔴 LIVE DOT */
+.live-dot{width:10px;height:10px;background:red;border-radius:50%;margin-left:6px;animation:blink 0.8s infinite;}
+@keyframes blink{0%{opacity:1;}50%{opacity:0;}100%{opacity:1;}}
 
 /* HEADER */
-header{
-  background:#fff;
-  padding:12px 15px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:3px solid #d60000;
-  position:sticky;
-  top:0;
-  z-index:999;
-}
-.logo{
-  font-size:20px;
-  font-weight:800;
-  color:#d60000;
-}
-nav{
-  display:none; /* मोबाइल में nav हटाया */
-}
+header{background:#fff;padding:12px 15px;border-bottom:3px solid #d60000;position:sticky;top:0;z-index:999;display:flex;justify-content:space-between;align-items:center;}
+.logo{font-size:20px;font-weight:800;color:#d60000;display:flex;align-items:center;}
+.time-box{font-size:12px;font-weight:600;color:#444;text-align:right;line-height:14px;}
+.time-box span{color:#d60000;font-weight:700;}
 
 /* CATEGORY BAR */
-.category-bar{
-  background:#d60000;
-  padding:10px 5px;
-  overflow-x:auto;
-  white-space:nowrap;
-  scrollbar-width:none;
-}
-.category-bar::-webkit-scrollbar{
-  display:none;
-}
-.category-bar a{
-  color:#fff;
-  text-decoration:none;
-  margin-right:18px;
-  font-size:14px;
-  font-weight:600;
-}
+.category-bar{background:#d60000;padding:10px 5px;overflow-x:auto;white-space:nowrap;scrollbar-width:none;}
+.category-bar::-webkit-scrollbar{display:none;}
+.category-bar a{color:#fff;text-decoration:none;margin-right:18px;font-size:14px;font-weight:600;}
+
+/* GOLD-SILVER BOX */
+.rate-box{background:#fff;padding:10px;margin:10px;border-left:5px solid #d60000;border-radius:10px;box-shadow:0 3px 6px rgba(0,0,0,0.08);}
+.rate-box h3{font-size:15px;font-weight:700;color:#d60000;}
+.rate-box p{font-size:13px;margin-top:3px;color:#444;}
 
 /* TICKER */
-.ticker{
-  background:#222;
-  color:#fff;
-  padding:8px;
-  font-size:13px;
-  overflow:hidden;
-  white-space:nowrap;
-}
-.ticker span{
-  display:inline-block;
-  padding-left:100%;
-  animation:scroll 12s linear infinite;
-  font-weight:600;
-}
-@keyframes scroll{
-  0%{transform:translateX(0);}
-  100%{transform:translateX(-100%);}
-}
+.ticker{background:#222;color:#fff;padding:8px;font-size:13px;overflow:hidden;white-space:nowrap;}
+.ticker span{display:inline-block;padding-left:100%;animation:scroll 12s linear infinite;font-weight:600;}
+@keyframes scroll{0%{transform:translateX(0);}100%{transform:translateX(-100%);}}
 
 /* HERO */
-.hero{
-  margin:15px auto;
-  width:100%;
-  padding:0 10px;
-}
-.hero-left{
-  width:100%;
-  height:230px;
-  background:url('https://images.unsplash.com/photo-1520792952938-1c3d5b1c7c33?auto=format&fit=crop&w=900&q=60') center/cover;
-  border-radius:12px;
-  position:relative;
-}
-.hero-left .text{
-  position:absolute;
-  bottom:0;
-  width:100%;
-  padding:15px;
-  background:linear-gradient(transparent,rgba(0,0,0,0.9));
-  border-radius:0 0 12px 12px;
-}
-.hero-left h2{
-  font-size:18px;
-  font-weight:800;
-  color:#fff;
-  line-height:22px;
-}
+.hero{margin:15px auto;width:100%;padding:0 10px;}
+.hero-left{width:100%;height:230px;background:url('https://images.unsplash.com/photo-1520792952938-1c3d5b1c7c33?auto=format&fit=crop&w=900&q=60') center/cover;border-radius:12px;position:relative;}
+.hero-left .text{position:absolute;bottom:0;width:100%;padding:15px;background:linear-gradient(transparent,rgba(0,0,0,0.9));border-radius:0 0 12px 12px;}
+.hero-left h2{font-size:18px;font-weight:800;color:#fff;line-height:22px;}
 
 /* HIGHLIGHTS */
-.highlight-box{
-  margin-top:10px;
-  padding:0 12px;
-}
-.highlight{
-  background:#fff;
-  padding:12px;
-  margin-bottom:10px;
-  border-left:5px solid #d60000;
-  border-radius:10px;
-}
+.highlight-box{margin-top:10px;padding:0 12px;}
+.highlight{background:#fff;padding:12px;margin-bottom:10px;border-left:5px solid #d60000;border-radius:10px;}
 
 /* SECTION TITLE */
-.section-title{
-  font-size:18px;
-  font-weight:700;
-  margin:20px 12px 10px;
-  border-left:5px solid #d60000;
-  padding-left:10px;
-}
+.section-title{font-size:18px;font-weight:700;margin:20px 12px 10px;border-left:5px solid #d60000;padding-left:10px;}
 
 /* NEWS GRID */
-.grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:15px;
-  padding:0 12px;
-}
-.card{
-  background:#fff;
-  border-radius:12px;
-  overflow:hidden;
-  box-shadow:0 3px 6px rgba(0,0,0,0.1);
-}
-.card img{
-  width:100%;
-  height:170px;
-  object-fit:cover;
-}
-.card .content{
-  padding:12px;
-}
-.card h3{
-  font-size:16px;
-  color:#d60000;
-  font-weight:700;
-}
-.card p{
-  font-size:13px;
-  margin-top:5px;
-  color:#444;
-}
+.grid{display:grid;grid-template-columns:1fr;gap:15px;padding:0 12px;}
+.card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 3px 6px rgba(0,0,0,0.1);}
+.card img{width:100%;height:170px;object-fit:cover;}
+.card .content{padding:12px;}
+.card h3{font-size:16px;color:#d60000;font-weight:700;}
+.card p{font-size:13px;margin-top:5px;color:#444;}
 
-/* FOOTER */
-footer{
-  background:#111;
-  color:#ccc;
-  text-align:center;
-  padding:12px;
-  font-size:12px;
-  margin-top:20px;
-}
+footer{background:#111;color:#ccc;text-align:center;padding:12px;font-size:12px;margin-top:20px;}
 </style>
 </head>
-
 <body>
 
 <header>
-  <div class="logo">Dungarpur Live News</div>
+  <div class="logo">Dungarpur Live News <div class="live-dot"></div></div>
+  <div class="time-box">
+    <span id="live-date"></span><br>
+    <span id="live-time"></span>
+  </div>
 </header>
 
+<script>
+function updateDateTime(){
+  const now=new Date();
+  document.getElementById('live-date').innerText=now.toLocaleDateString();
+  document.getElementById('live-time').innerText=now.toLocaleTimeString();
+}
+setInterval(updateDateTime,1000);
+updateDateTime();
+</script>
+
+<!-- CATEGORY BAR (UNCHANGED) -->
 <div class="category-bar">
   <a href="#">Latest</a>
   <a href="#">Local</a>
@@ -189,15 +88,21 @@ footer{
   <a href="#">Sports</a>
 </div>
 
+<!-- GOLD-SILVER RATE BOX MOVED BELOW CATEGORY BAR -->
+<div class="rate-box">
+  <h3>💎 Shree Ganesh Jewellers — Live Rate</h3>
+  <p>Gold 22K: ₹5,840 /gm | Gold 24K: ₹6,250 /gm</p>
+  <p>Silver: ₹78 /gm</p>
+</div>
+
 <div class="ticker">
   <span>Dungarpur me strong बारिश का alert... | Sagwara road बंद... | Hospital me free health camp...</span>
 </div>
 
+<!-- REST UNTOUCHED -->
 <div class="hero">
   <div class="hero-left">
-    <div class="text">
-      <h2>Dungarpur me भारी बारिश • प्रशासन ने advisory जारी की</h2>
-    </div>
+    <div class="text"><h2>Dungarpur me भारी बारिश • प्रशासन ने advisory जारी की</h2></div>
   </div>
 </div>
 
@@ -208,28 +113,17 @@ footer{
 </div>
 
 <h2 class="section-title">Top Local News</h2>
-
 <div class="grid">
   <div class="card">
     <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?w=900">
-    <div class="content">
-      <h3>Bazaar me bheed badh gai</h3>
-      <p>Tyohaari season me shopping का जादू...</p>
-    </div>
+    <div class="content"><h3>Bazaar me bheed badh gai</h3><p>Tyohaari season me shopping का जादू...</p></div>
   </div>
-
   <div class="card">
     <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=900">
-    <div class="content">
-      <h3>Hospital camp me 500 log पहुंचे</h3>
-      <p>Doctors ne free check-up kiya...</p>
-    </div>
+    <div class="content"><h3>Hospital camp me 500 log पहुंचे</h3><p>Doctors ne free check-up kiya...</p></div>
   </div>
 </div>
 
-<footer>
-  © 2025 Dungarpur Aaj Tak Local News
-</footer>
-
+<footer>© 2025 Dungarpur Aaj Tak Local News</footer>
 </body>
 </html>
