@@ -149,9 +149,7 @@ updateDateTime();
 <!-- GRID where news will auto-load -->
 <div class="grid"></div>
 
-
 <footer>© 2025 Dungarpur Livel News</footer>
-
 
 <!-- POPUP HTML -->
 <div class="popup-bg" id="popup">
@@ -187,8 +185,7 @@ function shareNews(){
 }
 </script>
 
-
-<!-- ✅ GOOGLE SHEET NEWS FETCH SYSTEM -->
+<!-- GOOGLE SHEET AUTO NEWS -->
 <script>
 async function loadNews() {
   const url = "https://docs.google.com/spreadsheets/d/16Lzi_aU5Rg1Py7A0PGbKNJ-1Yu7TjUDCMJa1_R7KnrA/gviz/tq?tqx=out:json";
@@ -197,7 +194,6 @@ async function loadNews() {
     let res = await fetch(url);
     let text = await res.text();
 
-    // Remove wrapper
     let json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));
 
     let rows = json.table.rows;
@@ -227,6 +223,34 @@ async function loadNews() {
 }
 
 loadNews();
+</script>
+
+<!-- CLICK EVENTS FOR ALL NEWS SECTIONS -->
+<script>
+// Highlight Click → Popup
+document.querySelectorAll(".highlight").forEach(box => {
+  box.style.cursor = "pointer";
+  box.addEventListener("click", () => {
+      const text = box.innerText;  
+      openPopup("Local Highlight News", text);
+  });
+});
+
+// Hero Click → Popup
+document.querySelector(".hero-left").style.cursor = "pointer";
+document.querySelector(".hero-left").addEventListener("click", () => {
+    openPopup(
+      "पूर्व मुख्यमंत्री वसुंधरा राजे का सागवाड़ा में स्वागत",
+      "सागवाड़ा दौरे के दौरान पूर्व मुख्यमंत्री वसुंधरा राजे का भव्य स्वागत किया गया..."
+    );
+});
+
+// Ticker Click → Popup
+document.querySelector(".ticker").style.cursor = "pointer";
+document.querySelector(".ticker").addEventListener("click", () => {
+    const text = document.querySelector(".ticker span").innerText;
+    openPopup("Breaking News", text);
+});
 </script>
 
 </body>
