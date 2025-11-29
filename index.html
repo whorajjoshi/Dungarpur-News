@@ -236,7 +236,7 @@ async function loadNews() {
     let text = await res.text();  
 
     let json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));  
-    let rows = json.table.rows;  
+    let rows = json.table.rows.reverse();  
     let html = "";  
 
     rows.forEach(r => {  
