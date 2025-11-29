@@ -74,19 +74,14 @@ footer{background:#111;color:#ccc;text-align:center;padding:12px;font-size:12px;
 .popup-box{  
   background:#fff;width:100%;max-width:420px;border-radius:12px;  
   padding:20px;box-shadow:0 0 20px rgba(0,0,0,0.4);animation:pop .3s ease;  
-  max-height:90vh;  
-  overflow-y:auto;  
+  max-height:90vh;overflow-y:auto;  
 }  
 @keyframes pop{0%{transform:scale(0.7);}100%{transform:scale(1);}}  
   
-/* POPUP CONTENT */  
 .popup-img{width:100%;border-radius:10px;margin-bottom:10px;}  
 .popup-title{font-size:20px;font-weight:800;color:#d60000;margin-bottom:10px;}  
 .popup-text{font-size:14px;color:#333;line-height:20px;margin-bottom:15px;white-space:pre-line;}  
-.close-btn, .share-btn{  
-  padding:10px 14px;border:none;border-radius:8px;font-weight:600;  
-  cursor:pointer;font-size:14px;  
-}  
+.close-btn, .share-btn{padding:10px 14px;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px;}  
 .close-btn{background:#444;color:#fff;}  
 .share-btn{background:#d60000;color:#fff;margin-left:10px;}  
 .btns{display:flex;justify-content:flex-end;}  
@@ -105,17 +100,14 @@ footer{background:#111;color:#ccc;text-align:center;padding:12px;font-size:12px;
 <script>  
 function updateDateTime(){  
   const now = new Date();  
-  
   const day = now.getDate();  
   const month = now.toLocaleString('en-US', { month: 'short' });  
   const year = now.getFullYear();  
-  
   let hrs = now.getHours();  
   let mins = now.getMinutes();  
   let ampm = hrs >= 12 ? "PM" : "AM";  
   hrs = hrs % 12 || 12;  
   mins = mins < 10 ? "0" + mins : mins;  
-  
   document.getElementById('live-date').innerText = `${day} ${month} ${year}`;  
   document.getElementById('live-time').innerText = `${hrs}:${mins} ${ampm}`;  
 }  
@@ -142,6 +134,152 @@ updateDateTime();
 </div>  
   
 <div class="hero">  
+  <div class="hero-left">  
+    <div class="text"><h2>पूर्व मुख्यमंत्री वसुंधरा राजे का सागवाड़ा में स्वागत</h2></div>  
+  </div>  
+</div>  
+  
+<div class="highlight-box">  
+  <div class="highlight">⚡ सागवाड़ा में पुलिस टीमने वेश्यावृत्ति का भंडाफोड़</div>  
+  <div class="highlight">🔥 बाइक-गैंग्स के खिलाफ ‘ओपरेशन सन्स्कार’ शुरू</div>  
+  <div class="highlight">🚓 बच्चों की सुरक्षा को लेकर विशेष निरीक्षण अभियान</div>  
+</div>  
+  
+<h2 class="section-title">Top Local News</h2>  
+<div class="grid"></div>  
+  
+<footer>© 2025 Dungarpur Live News</footer>  
+  
+<!-- POPUP -->  
+<div class="popup-bg" id="popup">  
+  <div class="popup-box">  
+    <img id="pImg" class="popup-img">  
+    <div class="popup-title" id="pTitle"></div>  
+    <div class="popup-text" id="pText"></div>  
+    <div class="btns">  
+      <button class="close-btn" onclick="closePopup()">Close</button>  
+      <button class="share-btn" onclick="shareNews()">Share</button>  
+    </div>  
+  </div>  
+</div>  
+  
+<script>  
+function openPopup(title, text, date="", img=""){  
+  document.getElementById("pTitle").innerText = title;  
+  document.getElementById("pImg").src = img;  
+  let finalText = "";  
+  if(date){ finalText += "📅 " + date + "\n\n"; }  
+  finalText += text;  
+  document.getElementById("pText").innerText = finalText;  
+  document.getElementById("popup").style.display = "flex";  
+}  
+  
+function closePopup(){  
+  document.getElementById("popup").style.display = "none";  
+}  
+  
+function shareNews(){  
+  const appLink = "https://yourappdownloadlink.com";  
+  navigator.share({  
+    title:"Dungarpur Live News",  
+    text:"Check this news on our App",  
+    url:appLink  
+  }).catch(()=>alert("Share supported nahi hai, link: " + appLink));  
+}  
+</script>  
+  
+<!-- SHEET NEWS WITH FIXED DATE -->  
+<script>  
+
+function formatSheetDate(raw){  
+  if(!raw) return "";  
+
+  // raw format: 29/11/2025 22:45  
+  let [datePart, timePart] = raw.split(" ");  
+  let [dd, mm, yyyy] = datePart.split("/").map(Number);  
+  let [hour, minute] = timePart.split(":").map(Number);  
+
+  // Convert into real JS date safely  
+  let d = new Date(yyyy, mm - 1, dd, hour, minute);  
+
+  let day = d.getDate();  
+  let month = d.toLocaleString("en-US",{month:"long"});  
+  let year = d.getFullYear();  
+  let finalTime = d.toLocaleString("en-US",{hour:"2-digit", minute:"2-digit"});  
+
+  return `${day} ${month} ${year}, ${finalTime}`;  
+}  
+
+async function loadNews() {  
+  const url = "https://docs.google.com/spreadsheets/d/16Lzi_aU5Rg1Py7A0PGbKNJ-1Yu7TjUDCMJa1_R7KnrA/gviz/tq?tqx=out:json";  
+  
+  try {  
+    let res = await fetch(url);  
+    let text = await res.text();  
+  
+    let json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1));  
+    let rows = json.table.rows;  
+    let html = "";  
+  
+    rows.forEach(r => {  
+      let title = r.c[0]?.v || "";  
+      let img = r.c[1]?.v || "";  
+      let desc = r.c[2]?.v || "";  
+      let rawDate = r.c[3]?.v || "";  
+  
+      let finalDate = formatSheetDate(rawDate);  
+  
+      html += `  
+        <div class="card" onclick="openPopup('${title.replace(/'/g," ")}','${desc.replace(/'/g," ")}','${finalDate}','${img}')">  
+          <img src="${img}">  
+          <div class="content">  
+            <h3>${title}</h3>  
+            <p style="color:#d60000;font-size:12px;font-weight:700;margin-top:4px;">📅 ${finalDate}</p>  
+            <p>${desc.substring(0, 60)}...</p>  
+          </div>  
+        </div>  
+      `;  
+    });  
+  
+    document.querySelector(".grid").innerHTML = html;  
+  
+  } catch (e) {  
+    console.error("SHEET ERROR:", e);  
+  }  
+}  
+  
+loadNews();  
+</script>  
+  
+<!-- CLICK EVENTS -->  
+<script>  
+document.querySelectorAll(".highlight").forEach(box => {  
+  box.style.cursor = "pointer";  
+  box.addEventListener("click", () => {  
+      const text = box.innerText;    
+      openPopup("Local Highlight News", text, "", "");  
+  });  
+});  
+  
+document.querySelector(".hero-left").style.cursor = "pointer";  
+document.querySelector(".hero-left").addEventListener("click", () => {  
+    openPopup(  
+      "पूर्व मुख्यमंत्री वसुंधरा राजे का सागवाड़ा में स्वागत",  
+      "सागवाड़ा दौरे के दौरान पूर्व मुख्यमंत्री वसुंधरा राजे का भव्य स्वागत किया गया...",  
+      "",  
+      "https://c.ndtvimg.com/2025-11/9nrb9sq8_vasundhara-raje-dungarpur_625x300_29_November_25.jpg"  
+    );  
+});  
+  
+document.querySelector(".ticker").style.cursor = "pointer";  
+document.querySelector(".ticker").addEventListener("click", () => {  
+    const text = document.querySelector(".ticker span").innerText;  
+    openPopup("Breaking News", text);  
+});  
+</script>  
+  
+</body>  
+</html><div class="hero">  
   <div class="hero-left">  
     <div class="text"><h2>पूर्व मुख्यमंत्री वसुंधरा राजे का सागवाड़ा में स्वागत</h2></div>  
   </div>  
