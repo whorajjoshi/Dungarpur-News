@@ -28,7 +28,7 @@ header{background:#fff;padding:12px 15px;border-bottom:3px solid #d60000;positio
 .rate-box{
   background:#0f0f0f;
   padding:15px;
-  margin:4px 6px; /* reduced gap */
+  margin:4px 6px;
   border-radius:14px;
   border:2px solid #D4AF37;
   box-shadow:0 0 12px rgba(212,175,55,0.4);
@@ -75,6 +75,8 @@ footer{background:#111;color:#ccc;text-align:center;padding:12px;font-size:12px;
   padding:20px;box-shadow:0 0 20px rgba(0,0,0,0.4);animation:pop .3s ease;
 }
 @keyframes pop{0%{transform:scale(0.7);}100%{transform:scale(1);}}
+
+/* POPUP CONTENT */
 .popup-title{font-size:20px;font-weight:800;color:#d60000;margin-bottom:10px;}
 .popup-text{font-size:14px;color:#333;line-height:20px;margin-bottom:15px;}
 .close-btn, .share-btn{
@@ -98,10 +100,18 @@ footer{background:#111;color:#ccc;text-align:center;padding:12px;font-size:12px;
 
 <script>
 function updateDateTime(){
-  const now=new Date();
-  document.getElementById('live-date').innerText=now.toLocaleDateString();
-  document.getElementById('live-time').innerText=now.toLocaleTimeString();
+  const now = new Date();
+
+  // 📌 Custom date format → Day Month Year (29 Nov 2025)
+  const day = now.getDate();
+  const month = now.toLocaleString('en-US', { month: 'short' });
+  const year = now.getFullYear();
+  document.getElementById('live-date').innerText = `${day} ${month} ${year}`;
+
+  // Time
+  document.getElementById('live-time').innerText = now.toLocaleTimeString();
 }
+
 setInterval(updateDateTime,1000);
 updateDateTime();
 </script>
@@ -117,7 +127,7 @@ updateDateTime();
 
 <div class="rate-box">
   <h3>💎 Shree Ganesh Jewellers — Live Rate</h3>
-  <p>Gold 22K: ₹5,840 /gm | Silver: ₹78 /gm</p>
+  <p>Gold 22K: ₹5,840 /gm | Gold 24K: ₹6,250 /gm | Silver: ₹78 /gm</p>
 </div>
 
 <div class="ticker">
@@ -183,7 +193,7 @@ function closePopup(){
 }
 
 function shareNews(){
-  const appLink = "https://yourappdownloadlink.com"; // 👉 apni app link daalna
+  const appLink = "https://yourappdownloadlink.com";
   navigator.share({
     title: "Dungarpur Live News",
     text: "Check this news on our App",
