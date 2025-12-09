@@ -82,23 +82,45 @@ header{
 
 footer{background:#111;color:#ccc;text-align:center;padding:12px;font-size:12px;margin-top:20px;}
 
-/* POPUP */
+/* POPUP BG */
 .popup-bg{
   position:fixed;top:0;left:0;width:100%;height:100%;
   background:rgba(0,0,0,0.7);display:none;justify-content:center;
   align-items:center;z-index:9999;padding:20px;
 }
+
+/* POPUP BOX */
 .popup-box{
   background:#fff;width:100%;max-width:420px;border-radius:12px;
   padding:20px;box-shadow:0 0 20px rgba(0,0,0,0.4);animation:pop .3s ease;
-  max-height:90vh;
-  overflow-y:auto;
+  max-height:90vh;overflow-y:auto;position:relative;
 }
 @keyframes pop{0%{transform:scale(0.7);}100%{transform:scale(1);}}
+
+/* NEW TOP RIGHT CLOSE BUTTON */
+.popup-close{
+  position:absolute;
+  top:10px;
+  right:12px;
+  background:#d60000;
+  color:#fff;
+  border:none;
+  font-size:20px;
+  font-weight:700;
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  cursor:pointer;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  box-shadow:0 0 6px rgba(0,0,0,0.3);
+}
 
 .popup-img{width:100%;border-radius:10px;margin-bottom:10px;}
 .popup-title{font-size:20px;font-weight:800;color:#d60000;margin-bottom:10px;}
 .popup-text{font-size:14px;color:#333;line-height:20px;margin-bottom:15px;white-space:pre-line;}
+
 .close-btn,.share-btn{
   padding:10px 14px;border:none;border-radius:8px;font-weight:600;
   cursor:pointer;font-size:14px;
@@ -161,6 +183,10 @@ updateDateTime();
 <!-- POPUP -->
 <div class="popup-bg" id="popup">
   <div class="popup-box">
+
+    <!-- NEW TOP RIGHT CLOSE BUTTON -->
+    <button class="popup-close" onclick="closePopup()">×</button>
+
     <img id="pImg" class="popup-img">
     <div class="popup-title" id="pTitle"></div>
     <div class="popup-text" id="pText"></div>
@@ -184,7 +210,25 @@ function openPopup(title,text,date="",img=""){
   document.getElementById("popup").style.display="flex";
 }
 function closePopup(){document.getElementById("popup").style.display="none";}
-function shareNews(){navigator.share({title:"Dungarpur Live News",text:"Check this news"});}
+</script>
+
+<!-- SHARE -->
+<script>
+function shareNews() {
+  let title = document.getElementById("pTitle").innerText;
+
+  let shareData = {
+    title: title,
+    text: title + "\n\nRead more: https://dungarpurlivenews.in",
+    url: "https://dungarpurlivenews.in"
+  };
+
+  if (navigator.share) {
+    navigator.share(shareData).catch(() => {});
+  } else {
+    alert("Sharing not supported on this device");
+  }
+}
 </script>
 
 <script>
@@ -250,7 +294,6 @@ async function loadSheet(){
     }
 
     if(type === "news"){
-      /* ADD LIVE TICKER TITLE */
       tilesHTML += `<span class="tile">${title}</span>`;
 
       newsHTML += `
@@ -276,7 +319,6 @@ async function loadSheet(){
   document.getElementById("highlightBox").innerHTML = highlightHTML;
   document.getElementById("newsGrid").innerHTML = newsHTML;
 
-  /* FIXED TICKER — INSTANT START */
   let ticker = document.getElementById("tileTrack");
 
   if(tilesHTML.trim() !== ""){
