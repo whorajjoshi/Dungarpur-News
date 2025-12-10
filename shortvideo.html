@@ -65,17 +65,20 @@ header{
 }
 .play-btn.hide{opacity:0;pointer-events:none;}
 
-/* iframe */
-.video-card iframe{
-  width:100%;height:220px;display:none;
-  border:0;border-bottom:3px solid #d60000;
-}
-
-/* THUMBNAIL */
+/* THUMBNAIL BOX */
 .thumb-box{
   width:100%;height:220px;
   border-bottom:3px solid #d60000;
   cursor:pointer;
+  background-size:cover !important;
+  background-position:center !important;
+  position:relative;
+}
+
+/* iframe */
+.video-card iframe{
+  width:100%;height:220px;display:none;
+  border:0;border-bottom:3px solid #d60000;
 }
 
 /* TEXT */
@@ -177,15 +180,22 @@ updateDateTime();
 const sheetURL =
 "https://docs.google.com/spreadsheets/d/1XJ8pFXSaWjukPMk8aB2XD3v8mINjoV9n3QqnF02aa-Q/gviz/tq?tqx=out:json";
 
-/* YOUTUBE EMBED */
+/* YouTube ID EXTRACT */
+function getYTID(url){
+  if(url.includes("youtu.be/")) return url.split("youtu.be/")[1].split("?")[0];
+  if(url.includes("watch?v=")) return url.split("watch?v=")[1].split("&")[0];
+  return "";
+}
+
+/* AUTO THUMBNAIL */
+function autoThumb(url){
+  let id = getYTID(url);
+  return `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+}
+
+/* EMBED URL */
 function ytEmbed(url){
-  if(!url) return "";
-  let id="";
-  if(url.includes("youtu.be/")){
-    id=url.split("youtu.be/")[1].split("?")[0];
-  } else if(url.includes("watch?v=")){
-    id=url.split("watch?v=")[1].split("&")[0];
-  }
+  let id = getYTID(url);
   return `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&controls=1&autoplay=1`;
 }
 
@@ -210,7 +220,6 @@ function playVideo(card, url){
   iframe.src = url;
   iframe.style.display="block";
   thumb.style.display="none";
-
   btn.classList.add("hide");
 }
 
@@ -238,19 +247,21 @@ async function loadSheet(){
 
   rows.forEach(r=>{
     let title=r.c[0]?.v||"";
-    let videoUrl=ytEmbed(r.c[1]?.v||"");
+    let url=r.c[1]?.v||"";
     let desc=r.c[2]?.v||"";
-    let thumb=r.c[3]?.v||"https://i.imgur.com/4ZQZ4ZQ.jpeg";
+
+    let embed = ytEmbed(url);
+    let thumb = autoThumb(url);
 
     if(title) tilesHTML += `<span class="tile">${title}</span>`;
 
     videoHTML += `
       <div class="video-card">
 
-        <div class="play-btn" onclick="playVideo(this.parentElement,'${videoUrl}')">▶</div>
+        <div class="play-btn" onclick="playVideo(this.parentElement,'${embed}')">▶</div>
 
-        <div class="thumb-box" onclick="playVideo(this.parentElement,'${videoUrl}')"
-             style="background:url('${thumb}') center/cover;">
+        <div class="thumb-box" onclick="playVideo(this.parentElement,'${embed}')"
+             style="background:url('${thumb}')">
         </div>
 
         <iframe class="player-frame" allow="autoplay" allowfullscreen></iframe>
