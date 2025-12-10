@@ -100,7 +100,7 @@ header{
   font-size:18px;margin-bottom:10px;color:#d60000;
 }
 
-/* NEW TOP RIGHT CLOSE BUTTON */
+/* TOP RIGHT CLOSE BUTTON */
 .top-close-btn{
   position:absolute;
   top:10px;
@@ -183,59 +183,50 @@ updateDateTime();
 <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/1XJ8pFXSaWjukPMk8aB2XD3v8mINjoV9n3QqnF02aa-Q/gviz/tq?tqx=out:json";
 
-/* Convert YouTube link → Embed link */
+/* Convert YouTube → Embed */
 function ytEmbed(url){
   if(!url) return "";
-  let id = "";
-
+  let id="";
   if(url.includes("youtu.be/")){
-    id = url.split("youtu.be/")[1].split("?")[0];
+    id=url.split("youtu.be/")[1].split("?")[0];
   } else if(url.includes("watch?v=")){
-    id = url.split("watch?v=")[1].split("&")[0];
+    id=url.split("watch?v=")[1].split("&")[0];
   }
-
   return `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&controls=1`;
 }
 
-/* 🛑 STOP ALL VIDEOS BEFORE PLAYING NEW ONE */
+/* STOP ALL VIDEOS */
 function stopAllVideos(){
-  document.querySelectorAll("iframe").forEach(frame => {
-    frame.src = frame.src;   // ← iframe reload = video stop
+  document.querySelectorAll("iframe").forEach(frame=>{
+    frame.src = frame.src;
   });
 }
 
-/* POPUP OPEN */
-function openPopup(title, desc){
-  stopAllVideos();  // ← सबसे important line
-
-  document.getElementById("popupTitle").innerText = title;
-  document.getElementById("popupDesc").innerText = desc;
-  document.getElementById("popupBg").style.display = "flex";
+/* POPUP */
+function openPopup(title,desc){
+  stopAllVideos();
+  document.getElementById("popupTitle").innerText=title;
+  document.getElementById("popupDesc").innerText=desc;
+  document.getElementById("popupBg").style.display="flex";
 }
-
-/* POPUP CLOSE */
 function closePopup(){
   stopAllVideos();
-  document.getElementById("popupBg").style.display = "none";
+  document.getElementById("popupBg").style.display="none";
 }
 
-/* LOAD SHEET DATA */
 async function loadSheet(){
-  let res = await fetch(sheetURL);
-  let text = await res.text();
-  let json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}")+1));
-  let rows = json.table.rows;
+  let res=await fetch(sheetURL);
+  let text=await res.text();
+  let json=JSON.parse(text.substring(text.indexOf("{"),text.lastIndexOf("}")+1));
+  let rows=json.table.rows;
 
-  let videoHTML = "";
-  let tilesHTML = "";
-
+  let videoHTML="", tilesHTML="";
   rows.reverse();
 
-  rows.forEach(r => {
-    let title = r.c[0]?.v || "";
-    let videoUrl = ytEmbed(r.c[1]?.v || "");
-    let desc = r.c[2]?.v || "";
-    let thumb = r.c[3]?.v || "";
+  rows.forEach(r=>{
+    let title=r.c[0]?.v||"";
+    let videoUrl=ytEmbed(r.c[1]?.v||"");
+    let desc=r.c[2]?.v||"";
 
     if(title){
       tilesHTML += `<span class="tile">${title}</span>`;
@@ -244,11 +235,7 @@ async function loadSheet(){
     videoHTML += `
       <div class="video-card">
 
-        <iframe 
-          src="${videoUrl}" 
-          allow="autoplay"
-          allowfullscreen>
-        </iframe>
+        <iframe src="${videoUrl}" allow="autoplay" allowfullscreen></iframe>
 
         <h3 onclick="openPopup('${title.replace(/'/g,"")}', \`${desc.replace(/`/g,"")}\`)">${title}</h3>
 
@@ -257,20 +244,17 @@ async function loadSheet(){
       </div>`;
   });
 
-  document.getElementById("videoGrid").innerHTML = videoHTML;
-  document.getElementById("tileTrack").innerHTML = tilesHTML + tilesHTML;
+  document.getElementById("videoGrid").innerHTML=videoHTML;
+  document.getElementById("tileTrack").innerHTML=tilesHTML+tilesHTML;
 
-  /* 🛑 जब भी iframe clicked हो → बाकी सभी वीडियो रोक दो */
-  document.querySelectorAll("iframe").forEach(frame => {
-    frame.addEventListener("load", () => {
-      stopAllVideos();
-    });
+  /* जब भी iframe load हो → बाकी videos रोक दो */
+  document.querySelectorAll("iframe").forEach(frame=>{
+    frame.addEventListener("load",()=>stopAllVideos());
   });
 }
 
 loadSheet();
 </script>
-
 
 </body>
 </html>
