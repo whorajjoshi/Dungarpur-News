@@ -93,6 +93,7 @@ header{
   z-index:9999;
 }
 .popup-box{
+  position:relative;
   background:#fff;
   width:90%;
   max-width:420px;
@@ -105,6 +106,25 @@ header{
 .popup-box h2{
   font-size:18px;margin-bottom:10px;color:#d60000;
 }
+
+/* NEW TOP RIGHT CLOSE BUTTON */
+.top-close-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:#d60000;
+  color:#fff;
+  width:28px;
+  height:28px;
+  font-size:16px;
+  border:none;
+  border-radius:50%;
+  cursor:pointer;
+  font-weight:bold;
+  line-height:28px;
+  text-align:center;
+}
+
 .popup-close{
   background:#d60000;color:#fff;padding:8px 14px;
   border-radius:6px;margin-top:15px;width:100%;
@@ -158,6 +178,7 @@ updateDateTime();
 <!-- POPUP -->
 <div class="popup-bg" id="popupBg">
   <div class="popup-box">
+    <button class="top-close-btn" onclick="closePopup()">×</button>   <!-- NEW BUTTON -->
     <h2 id="popupTitle"></h2>
     <p id="popupDesc"></p>
     <button class="popup-close" onclick="closePopup()">Close</button>
