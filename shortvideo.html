@@ -3,192 +3,165 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>Dungarpur Live News</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<title>Dungarpur Live News — Video News</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+body{background:#f7f7f7;color:#222;overflow-x:hidden;}
 
-body{background:#f4f4f4;color:#222;}
+/* LIVE DOT */
+.live-dot{width:10px;height:10px;background:red;border-radius:50%;margin-left:6px;animation:blink 0.8s infinite;}
+@keyframes blink{0%{opacity:1;}50%{opacity:0;}100%{opacity:1;}}
 
+/* HEADER (Same as old) */
 header{
-    width:100%;
-    background:#c40000;
-    color:#fff;
-    padding:15px;
-    text-align:center;
-    font-size:22px;
-    font-weight:700;
-    position:sticky;
-    top:0;
-    z-index:100;
+  background:#fff;padding:12px 15px;border-bottom:3px solid #d60000;
+  position:sticky;top:0;z-index:999;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.logo{font-size:20px;font-weight:800;color:#d60000;display:flex;align-items:center;}
+
+.time-box{font-size:12px;font-weight:600;color:#444;text-align:right;line-height:14px;}
+.time-box span{color:#d60000;font-weight:700;}
+
+/* TICKER (Same) */
+.tile-ticker{
+  background:#d60000;padding:10px 0;overflow:hidden;white-space:nowrap;
+  display:flex;align-items:center;
+}
+.tile-track{
+  display:inline-block;animation:scrollTiles 120s linear infinite;
+}
+.tile{
+  background:#fff;color:#d60000;padding:6px 14px;margin-right:12px;
+  border-radius:20px;font-size:13px;font-weight:700;display:inline-block;
+  box-shadow:0 2px 4px rgba(0,0,0,0.2);
+}
+@keyframes scrollTiles{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
 }
 
-.hero{
-    width:100%;
-    height:200px;
-    background:url('https://i.ibb.co/6Rk4y0n/news-banner.jpg') center/cover no-repeat;
+/* VIDEO GRID SAME AS NEWS */
+.grid{
+  display:grid;grid-template-columns:1fr;gap:15px;padding:0 12px;margin-top:12px;
 }
 
-.container{
-    padding:10px;
+.video-card{
+  background:#fff;border-radius:12px;overflow:hidden;
+  box-shadow:0 3px 6px rgba(0,0,0,0.1);padding-bottom:10px;
 }
 
-.card{
-    background:#fff;
-    margin-bottom:15px;
-    border-radius:10px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
-    overflow:hidden;
+.video-card video{
+  width:100%;height:220px;background:#000;border-bottom:3px solid #d60000;
 }
 
-.card img{
-    width:100%;
-    height:200px;
-    object-fit:cover;
+.video-card h3{
+  font-size:16px;color:#d60000;font-weight:700;margin:10px;
 }
 
-.card h3{
-    font-size:18px;
-    padding:10px;
-    font-weight:600;
+.video-card p{
+  font-size:13px;margin:0 10px 10px;color:#444;
 }
 
-.card p{
-    padding:0 10px 10px;
-    font-size:14px;
-    color:#555;
-}
-
-.loader{
-    text-align:center;
-    padding:20px;
-    font-size:18px;
-    color:#c40000;
-    font-weight:600;
-}
-
-.popup{
-    position:fixed;
-    top:0;left:0;
-    width:100%;height:100%;
-    background:rgba(0,0,0,0.8);
-    display:none;
-    justify-content:center;
-    align-items:center;
-    z-index:200;
-}
-
-.popup iframe{
-    width:90%;
-    height:60%;
-    border:0;
-    border-radius:10px;
-    background:#000;
-}
-
-.closeBtn{
-    position:absolute;
-    top:20px;
-    right:20px;
-    font-size:25px;
-    background:#fff;
-    color:#000;
-    border-radius:50%;
-    width:35px;
-    height:35px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    cursor:pointer;
-    font-weight:700;
+footer{
+  background:#111;color:#ccc;text-align:center;padding:12px;font-size:12px;margin-top:20px;
 }
 </style>
 </head>
-
 <body>
 
-<header>Dungarpur Live News</header>
+<!-- HEADER SAME -->
+<header>
+  <div class="logo">Dungarpur Live News <div class="live-dot"></div></div>
+  <div class="time-box">
+    <span id="live-date"></span><br>
+    <span id="live-time"></span>
+  </div>
+</header>
 
-<div class="hero"></div>
+<!-- TIME SCRIPT SAME -->
+<script>
+function updateDateTime(){
+  const now = new Date();
+  const day = now.getDate();
+  const month = now.toLocaleString('en-US',{month:'short'});
+  const year = now.getFullYear();
+  let h=now.getHours(), m=now.getMinutes();
+  let ampm=h>=12?"PM":"AM"; h=h%12 || 12;
+  m=m<10?"0"+m:m;
+  document.getElementById('live-date').innerText = `${day} ${month} ${year}`;
+  document.getElementById('live-time').innerText = `${h}:${m} ${ampm}`;
+}
+setInterval(updateDateTime,1000);
+updateDateTime();
+</script>
 
-<div class="container" id="newsContainer"></div>
-<div class="loader" id="loader">Loading...</div>
-
-<!-- Popup -->
-<div class="popup" id="popup">
-    <div class="closeBtn" onclick="closePopup()">×</div>
-    <iframe id="videoFrame" allow="autoplay"></iframe>
+<!-- TICKER SAME -->
+<div class="tile-ticker">
+  <div class="tile-track" id="tileTrack">Loading...</div>
 </div>
 
+<h2 class="section-title" style="font-size:18px;font-weight:700;margin:20px 12px 10px;border-left:5px solid #d60000;padding-left:10px;">
+  Latest Video News
+</h2>
+
+<div class="grid" id="videoGrid"></div>
+
+<footer>© 2025 Dungarpur Live News</footer>
+
 <script>
-// FINAL Google Sheet URL (correct format)
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/1XJ8pFXSaWjukPMk8aB2XD3v8mINjoV9n3QqnF02aa-Q/gviz/tq?tqx=out:json";
+const sheetURL = "https://docs.google.com/spreadsheets/d/1XJ8pFXSaWjukPMk8aB2XD3v8mINjoV9n3QqnF02aa-Q/gviz/tq?tqx=out:json";
 
-let dataList = [];
-let index = 0;
-const batchSize = 5;
-
-async function loadSheetData(){
-    const res = await fetch(SHEET_URL);
-    const text = await res.text();
-    const json = JSON.parse(text.substring(47, text.length - 2));
-
-    dataList = json.table.rows.map(r => ({
-        title: r.c[0]?.v || "",
-        videoUrl: r.c[1]?.v || "",
-        description: r.c[2]?.v || "",
-        thumbnail: r.c[3]?.v || ""
-    }));
-
-    loadMore();
+function formatDate(d){
+  if(!d) return "";
+  if(!isNaN(d)){
+    let jsDate = new Date((d-25569)*86400*1000);
+    return `${jsDate.getDate()} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][jsDate.getMonth()]} ${jsDate.getFullYear()}`;
+  }
+  return d;
 }
 
-function loadMore(){
-    const container = document.getElementById('newsContainer');
+async function loadSheet(){
+  let res = await fetch(sheetURL);
+  let text = await res.text();
+  let json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}")+1));
+  let rows = json.table.rows;
 
-    for(let i = 0; i < batchSize; i++){
-        if(index >= dataList.length){
-            document.getElementById('loader').innerText = "No more news";
-            return;
-        }
+  let videoHTML = "";
+  let tilesHTML = "";
 
-        let item = dataList[index];
+  rows.reverse();
 
-        let videoId = item.videoUrl.split("v=")[1];
-        let thumb = item.thumbnail || `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+  rows.forEach(r => {
+    let title = r.c[0]?.v || "";
+    let videoUrl = r.c[1]?.v || "";
+    let desc = r.c[2]?.v || "";
+    let thumb = r.c[3]?.v || "";
+    let date = formatDate(r.c[4]?.v || "");
 
-        let card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-            <img src="${thumb}" onclick="openPopup('${videoId}')">
-            <h3>${item.title}</h3>
-            <p>${item.description}</p>
-        `;
-
-        container.appendChild(card);
-        index++;
+    if(title){
+      tilesHTML += `<span class="tile">${title}</span>`;
     }
+
+    videoHTML += `
+      <div class="video-card">
+        <video controls poster="${thumb}">
+          <source src="${videoUrl}">
+        </video>
+        <h3>${title}</h3>
+        <p>📅 ${date}</p>
+        <p>${desc.substring(0,80)}...</p>
+      </div>`;
+  });
+
+  document.getElementById("videoGrid").innerHTML = videoHTML;
+
+  let ticker = document.getElementById("tileTrack");
+  ticker.innerHTML = tilesHTML + tilesHTML;
 }
-
-window.addEventListener('scroll', () => {
-    if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 100){
-        loadMore();
-    }
-});
-
-function openPopup(id){
-    document.getElementById("popup").style.display = "flex";
-    document.getElementById("videoFrame").src = `https://www.youtube.com/embed/${id}?autoplay=1`;
-}
-
-function closePopup(){
-    document.getElementById("popup").style.display = "none";
-    document.getElementById("videoFrame").src = "";
-}
-
-loadSheetData();
+loadSheet();
 </script>
 
 </body>
