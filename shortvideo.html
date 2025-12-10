@@ -53,8 +53,8 @@ header{
   box-shadow:0 3px 6px rgba(0,0,0,0.1);padding-bottom:10px;
 }
 
-.video-card video{
-  width:100%;height:220px;background:#000;border-bottom:3px solid #d60000;
+.video-card iframe{
+  width:100%;height:220px;border:0;border-bottom:3px solid #d60000;
 }
 
 .video-card h3{
@@ -183,6 +183,20 @@ updateDateTime();
 <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/1XJ8pFXSaWjukPMk8aB2XD3v8mINjoV9n3QqnF02aa-Q/gviz/tq?tqx=out:json";
 
+/* Convert YouTube link → Embed link */
+function ytEmbed(url){
+  if(!url) return "";
+  let id = "";
+
+  if(url.includes("youtu.be/")){
+    id = url.split("youtu.be/")[1].split("?")[0];
+  } else if(url.includes("watch?v=")){
+    id = url.split("watch?v=")[1].split("&")[0];
+  }
+
+  return `https://www.youtube.com/embed/${id}`;
+}
+
 function openPopup(title, desc){
   document.getElementById("popupTitle").innerText = title;
   document.getElementById("popupDesc").innerText = desc;
@@ -206,7 +220,7 @@ async function loadSheet(){
 
   rows.forEach(r => {
     let title = r.c[0]?.v || "";
-    let videoUrl = r.c[1]?.v || "";
+    let videoUrl = ytEmbed(r.c[1]?.v || "");
     let desc = r.c[2]?.v || "";
     let thumb = r.c[3]?.v || "";
 
@@ -216,13 +230,16 @@ async function loadSheet(){
 
     videoHTML += `
       <div class="video-card">
-        <video controls poster="${thumb}">
-          <source src="${videoUrl}">
-        </video>
+
+        <iframe 
+          src="${videoUrl}" 
+          allowfullscreen>
+        </iframe>
 
         <h3 onclick="openPopup('${title.replace(/'/g,"")}', \`${desc.replace(/`/g,"")}\`)">${title}</h3>
 
         <span class="read-more-btn" onclick="openPopup('${title.replace(/'/g,"")}', \`${desc.replace(/`/g,"")}\`)">Read More</span>
+
       </div>`;
   });
 
