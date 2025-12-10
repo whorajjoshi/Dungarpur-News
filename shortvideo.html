@@ -50,11 +50,11 @@ header{
   position:relative;
 }
 
-/* PERFECT CENTER PLAY BUTTON FIX */
+/* PERFECT CENTER PLAY BUTTON */
 .play-btn{
   position:absolute;
-  top:50%;
-  left:50%;
+  top:35%;
+  left:65%;
   transform:translate(-50%, -50%);
   width:70px;height:70px;border-radius:50%;
   background:rgba(0,0,0,0.45);
@@ -65,23 +65,19 @@ header{
 }
 .play-btn.hide{opacity:0;pointer-events:none;}
 
-/* TRUE PERFECT FIX — THUMBNAIL BOX */
+/* THUMBNAIL BOX */
 .thumb-box{
-  width:100%;
-  aspect-ratio:16/9;      /* FIXED PERFECT HEIGHT */
+  width:100%;height:220px;
   border-bottom:3px solid #d60000;
   cursor:pointer;
   background-size:cover !important;
   background-position:center !important;
   position:relative;
-  overflow:hidden;
 }
 
 /* iframe */
 .video-card iframe{
-  width:100%;height:auto;
-  aspect-ratio:16/9;
-  display:none;
+  width:100%;height:220px;display:none;
   border:0;border-bottom:3px solid #d60000;
 }
 
@@ -265,7 +261,7 @@ async function loadSheet(){
         <div class="play-btn" onclick="playVideo(this.parentElement,'${embed}')">▶</div>
 
         <div class="thumb-box" onclick="playVideo(this.parentElement,'${embed}')"
-             style="background-image:url('${thumb}')">
+             style="background:url('${thumb}')">
         </div>
 
         <iframe class="player-frame" allow="autoplay" allowfullscreen></iframe>
