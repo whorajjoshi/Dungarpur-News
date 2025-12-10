@@ -47,13 +47,39 @@ header{
 .video-card{
   background:#fff;border-radius:12px;overflow:hidden;
   box-shadow:0 3px 6px rgba(0,0,0,0.1);padding-bottom:10px;
+  position:relative;
 }
 
+/* CENTER PLAY BUTTON */
+.play-btn{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%, -50%);
+  width:70px;height:70px;border-radius:50%;
+  background:rgba(0,0,0,0.45);
+  color:#fff;font-size:40px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:5;
+  transition:0.3s ease;
+}
+.play-btn.hide{opacity:0;pointer-events:none;}
+
+.video-card iframe{
+  width:100%;height:220px;display:none;
+  border:0;border-bottom:3px solid #d60000;
+}
+
+/* thumbnail */
+.thumb-box{
+  width:100%;height:220px;
+  border-bottom:3px solid #d60000;
+  cursor:pointer;
+}
+
+/* TEXT */
 .video-card h3{
   font-size:16px;color:#d60000;font-weight:700;margin:10px;
   cursor:pointer;
 }
-
 .read-more-btn{
   background:#d60000;color:#fff;
   padding:5px 10px;border-radius:6px;
@@ -73,14 +99,12 @@ header{
   overflow:auto;box-shadow:0 5px 20px rgba(0,0,0,0.4);
 }
 .popup-box h2{font-size:18px;margin-bottom:10px;color:#d60000;}
-
 .top-close-btn{
   position:absolute;top:10px;right:10px;
   background:#d60000;color:#fff;width:28px;height:28px;font-size:16px;
   border:none;border-radius:50%;cursor:pointer;font-weight:bold;
   line-height:28px;text-align:center;
 }
-
 .popup-close{
   background:#d60000;color:#fff;padding:8px 14px;border-radius:6px;
   margin-top:15px;width:100%;border:none;font-size:14px;cursor:pointer;
@@ -162,31 +186,29 @@ function ytEmbed(url){
   return `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&controls=1&autoplay=1`;
 }
 
-/* STOP ALL VIDEOS — FIXED VERSION */
+/* STOP ALL VIDEOS */
 function stopAllVideos(){
   document.querySelectorAll(".player-frame").forEach(f=>{
-    if(f.dataset.src){ f.src = ""; }
+    f.src = "";
     f.style.display = "none";
   });
-
-  /* Show all thumbnails back */
-  document.querySelectorAll(".thumb-box").forEach(t=>{
-    t.style.display="block";
-  });
+  document.querySelectorAll(".thumb-box").forEach(t=> t.style.display="block");
+  document.querySelectorAll(".play-btn").forEach(b=> b.classList.remove("hide"));
 }
 
-/* PLAY VIDEO — FIXED (NO GAP BUG) */
+/* PLAY VIDEO */
 function playVideo(card, url){
-  stopAllVideos();  // FULL STOP clean
+  stopAllVideos();
 
   let iframe = card.querySelector(".player-frame");
   let thumb = card.querySelector(".thumb-box");
+  let btn = card.querySelector(".play-btn");
 
-  iframe.dataset.src = url;
   iframe.src = url;
   iframe.style.display="block";
-
   thumb.style.display="none";
+
+  btn.classList.add("hide");
 }
 
 /* POPUP */
@@ -201,6 +223,7 @@ function closePopup(){
   document.getElementById("popupBg").style.display="none";
 }
 
+/* LOAD SHEET */
 async function loadSheet(){
   let res=await fetch(sheetURL);
   let text=await res.text();
@@ -216,24 +239,20 @@ async function loadSheet(){
     let desc=r.c[2]?.v||"";
     let thumb=r.c[3]?.v||"https://i.imgur.com/4ZQZ4ZQ.jpeg";
 
-    if(title){
-      tilesHTML += `<span class="tile">${title}</span>`;
-    }
+    if(title) tilesHTML += `<span class="tile">${title}</span>`;
 
     videoHTML += `
       <div class="video-card">
 
-        <!-- THUMB -->
+        <div class="play-btn" onclick="playVideo(this.parentElement,'${videoUrl}')">▶</div>
+
         <div class="thumb-box" onclick="playVideo(this.parentElement,'${videoUrl}')"
-             style="width:100%;height:220px;background:url('${thumb}') center/cover;border-bottom:3px solid #d60000;cursor:pointer;">
+             style="background:url('${thumb}') center/cover;">
         </div>
 
-        <!-- IFRAME -->
-        <iframe class="player-frame" data-src="" style="display:none;width:100%;height:220px;border:0;border-bottom:3px solid #d60000;"
-                allow="autoplay" allowfullscreen></iframe>
+        <iframe class="player-frame" allow="autoplay" allowfullscreen></iframe>
 
         <h3 onclick="openPopup('${title.replace(/'/g,"")}',\`${desc.replace(/`/g,"")}\`)">${title}</h3>
-
         <span class="read-more-btn"
               onclick="openPopup('${title.replace(/'/g,"")}',\`${desc.replace(/`/g,"")}\`)">Read More</span>
 
