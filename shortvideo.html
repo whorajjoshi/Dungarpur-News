@@ -59,13 +59,7 @@ header{
 
 .video-card h3{
   font-size:16px;color:#d60000;font-weight:700;margin:10px;
-}
-
-.date-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:0 10px 10px;
+  cursor:pointer;
 }
 
 .read-more-btn{
@@ -75,6 +69,15 @@ header{
   border-radius:6px;
   font-size:12px;
   cursor:pointer;
+  margin:0 10px 10px;
+  display:inline-block;
+}
+
+.date-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:0 10px 10px;
 }
 
 /* POPUP */
@@ -212,18 +215,18 @@ async function loadSheet(){
         <video controls poster="${thumb}">
           <source src="${videoUrl}">
         </video>
-        <h3>${title}</h3>
+
+        <h3 onclick="openPopup('${title.replace(/'/g,"")}', \`${desc.replace(/`/g,"")}\`)">${title}</h3>
+
+        <span class="read-more-btn" onclick="openPopup('${title.replace(/'/g,"")}', \`${desc.replace(/`/g,"")}\`)">Read More</span>
 
         <div class="date-row">
           <p>📅 ${date}</p>
-          <span class="read-more-btn" onclick="openPopup('${title.replace(/'/g,"")}', \`${desc.replace(/`/g,"")}\`)">Read More</span>
         </div>
-
       </div>`;
   });
 
   document.getElementById("videoGrid").innerHTML = videoHTML;
-
   document.getElementById("tileTrack").innerHTML = tilesHTML + tilesHTML;
 }
 loadSheet();
