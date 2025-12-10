@@ -30,9 +30,7 @@ header{
   background:#d60000;padding:10px 0;overflow:hidden;white-space:nowrap;
   display:flex;align-items:center;
 }
-.tile-track{
-  display:inline-block;animation:scrollTiles 120s linear infinite;
-}
+.tile-track{display:inline-block;animation:scrollTiles 120s linear infinite;}
 .tile{
   background:#fff;color:#d60000;padding:6px 14px;margin-right:12px;
   border-radius:20px;font-size:13px;font-weight:700;display:inline-block;
@@ -43,18 +41,12 @@ header{
   100%{transform:translateX(-50%);}
 }
 
-/* VIDEO GRID */
-.grid{
-  display:grid;grid-template-columns:1fr;gap:15px;padding:0 12px;margin-top:12px;
-}
+/* GRID */
+.grid{display:grid;grid-template-columns:1fr;gap:15px;padding:0 12px;margin-top:12px;}
 
 .video-card{
   background:#fff;border-radius:12px;overflow:hidden;
   box-shadow:0 3px 6px rgba(0,0,0,0.1);padding-bottom:10px;
-}
-
-.video-card iframe{
-  width:100%;height:220px;border:0;border-bottom:3px solid #d60000;
 }
 
 .video-card h3{
@@ -63,69 +55,40 @@ header{
 }
 
 .read-more-btn{
-  background:#d60000;
-  color:#fff;
-  padding:5px 10px;
-  border-radius:6px;
-  font-size:12px;
-  cursor:pointer;
-  margin:0 10px 10px;
+  background:#d60000;color:#fff;
+  padding:5px 10px;border-radius:6px;
+  font-size:12px;cursor:pointer;margin:0 10px 10px;
   display:inline-block;
 }
 
 /* POPUP */
 .popup-bg{
-  position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
-  background:rgba(0,0,0,0.7);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-  z-index:9999;
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.7);display:none;
+  justify-content:center;align-items:center;padding:20px;z-index:9999;
 }
 .popup-box{
-  position:relative;
-  background:#fff;
-  width:90%;
-  max-width:420px;
-  padding:20px;
-  border-radius:12px;
-  max-height:80vh;
-  overflow:auto;
-  box-shadow:0 5px 20px rgba(0,0,0,0.4);
+  position:relative;background:#fff;width:90%;max-width:420px;
+  padding:20px;border-radius:12px;max-height:80vh;
+  overflow:auto;box-shadow:0 5px 20px rgba(0,0,0,0.4);
 }
-.popup-box h2{
-  font-size:18px;margin-bottom:10px;color:#d60000;
-}
+.popup-box h2{font-size:18px;margin-bottom:10px;color:#d60000;}
 
-/* TOP RIGHT CLOSE BUTTON */
 .top-close-btn{
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:#d60000;
-  color:#fff;
-  width:28px;
-  height:28px;
-  font-size:16px;
-  border:none;
-  border-radius:50%;
-  cursor:pointer;
-  font-weight:bold;
-  line-height:28px;
-  text-align:center;
+  position:absolute;top:10px;right:10px;
+  background:#d60000;color:#fff;width:28px;height:28px;font-size:16px;
+  border:none;border-radius:50%;cursor:pointer;font-weight:bold;
+  line-height:28px;text-align:center;
 }
 
 .popup-close{
-  background:#d60000;color:#fff;padding:8px 14px;
-  border-radius:6px;margin-top:15px;width:100%;
-  border:none;font-size:14px;cursor:pointer;
+  background:#d60000;color:#fff;padding:8px 14px;border-radius:6px;
+  margin-top:15px;width:100%;border:none;font-size:14px;cursor:pointer;
 }
 
 footer{
-  background:#111;color:#ccc;text-align:center;padding:12px;font-size:12px;margin-top:20px;
+  background:#111;color:#ccc;text-align:center;
+  padding:12px;font-size:12px;margin-top:20px;
 }
 </style>
 </head>
@@ -180,8 +143,12 @@ updateDateTime();
 
 <footer>© 2025 Dungarpur Live News</footer>
 
+
+<!-- FINAL SCRIPT -->
 <script>
-const sheetURL = "https://docs.google.com/spreadsheets/d/1XJ8pFXSaWjukPMk8aB2XD3v8mINjoV9n3QqnF02aa-Q/gviz/tq?tqx=out:json";
+
+const sheetURL =
+"https://docs.google.com/spreadsheets/d/1XJ8pFXSaWjukPMk8aB2XD3v8mINjoV9n3QqnF02aa-Q/gviz/tq?tqx=out:json";
 
 /* Convert YouTube → Embed */
 function ytEmbed(url){
@@ -192,14 +159,27 @@ function ytEmbed(url){
   } else if(url.includes("watch?v=")){
     id=url.split("watch?v=")[1].split("&")[0];
   }
-  return `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&controls=1`;
+  return `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&controls=1&autoplay=1`;
 }
 
-/* STOP ALL VIDEOS */
+/* STOP ALL PLAYING VIDEOS */
 function stopAllVideos(){
-  document.querySelectorAll("iframe").forEach(frame=>{
-    frame.src = frame.src;
+  document.querySelectorAll(".player-frame").forEach(f=>{
+    f.src = "";
   });
+  document.querySelectorAll(".thumb-box").forEach(t=>{
+    t.style.display="block";
+  });
+}
+
+/* PLAY VIDEO */
+function playVideo(card, url){
+  stopAllVideos();
+  let iframe = card.querySelector(".player-frame");
+  let thumb = card.querySelector(".thumb-box");
+  iframe.src = url;
+  iframe.style.display="block";
+  thumb.style.display="none";
 }
 
 /* POPUP */
@@ -227,6 +207,7 @@ async function loadSheet(){
     let title=r.c[0]?.v||"";
     let videoUrl=ytEmbed(r.c[1]?.v||"");
     let desc=r.c[2]?.v||"";
+    let thumb=r.c[3]?.v||"https://i.imgur.com/4ZQZ4ZQ.jpeg";
 
     if(title){
       tilesHTML += `<span class="tile">${title}</span>`;
@@ -235,22 +216,25 @@ async function loadSheet(){
     videoHTML += `
       <div class="video-card">
 
-        <iframe src="${videoUrl}" allow="autoplay" allowfullscreen></iframe>
+        <!-- THUMB -->
+        <div class="thumb-box" onclick="playVideo(this.parentElement,'${videoUrl}')"
+             style="width:100%;height:220px;background:url('${thumb}') center/cover;border-bottom:3px solid #d60000;cursor:pointer;">
+        </div>
 
-        <h3 onclick="openPopup('${title.replace(/'/g,"")}', \`${desc.replace(/`/g,"")}\`)">${title}</h3>
+        <!-- IFRAME -->
+        <iframe class="player-frame" style="display:none;width:100%;height:220px;border:0;border-bottom:3px solid #d60000;"
+                allow="autoplay" allowfullscreen></iframe>
 
-        <span class="read-more-btn" onclick="openPopup('${title.replace(/'/g,"")}', \`${desc.replace(/`/g,"")}\`)">Read More</span>
+        <h3 onclick="openPopup('${title.replace(/'/g,"")}',\`${desc.replace(/`/g,"")}\`)">${title}</h3>
+
+        <span class="read-more-btn"
+              onclick="openPopup('${title.replace(/'/g,"")}',\`${desc.replace(/`/g,"")}\`)">Read More</span>
 
       </div>`;
   });
 
   document.getElementById("videoGrid").innerHTML=videoHTML;
   document.getElementById("tileTrack").innerHTML=tilesHTML+tilesHTML;
-
-  /* जब भी iframe load हो → बाकी videos रोक दो */
-  document.querySelectorAll("iframe").forEach(frame=>{
-    frame.addEventListener("load",()=>stopAllVideos());
-  });
 }
 
 loadSheet();
