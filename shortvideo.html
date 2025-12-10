@@ -73,13 +73,6 @@ header{
   display:inline-block;
 }
 
-.date-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:0 10px 10px;
-}
-
 /* POPUP */
 .popup-bg{
   position:fixed;
@@ -178,7 +171,7 @@ updateDateTime();
 <!-- POPUP -->
 <div class="popup-bg" id="popupBg">
   <div class="popup-box">
-    <button class="top-close-btn" onclick="closePopup()">×</button>   <!-- NEW BUTTON -->
+    <button class="top-close-btn" onclick="closePopup()">×</button>
     <h2 id="popupTitle"></h2>
     <p id="popupDesc"></p>
     <button class="popup-close" onclick="closePopup()">Close</button>
@@ -189,15 +182,6 @@ updateDateTime();
 
 <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/1XJ8pFXSaWjukPMk8aB2XD3v8mINjoV9n3QqnF02aa-Q/gviz/tq?tqx=out:json";
-
-function formatDate(d){
-  if(!d) return "";
-  if(!isNaN(d)){
-    let jsDate = new Date((d-25569)*86400*1000);
-    return `${jsDate.getDate()} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][jsDate.getMonth()]} ${jsDate.getFullYear()}`;
-  }
-  return d;
-}
 
 function openPopup(title, desc){
   document.getElementById("popupTitle").innerText = title;
@@ -225,7 +209,6 @@ async function loadSheet(){
     let videoUrl = r.c[1]?.v || "";
     let desc = r.c[2]?.v || "";
     let thumb = r.c[3]?.v || "";
-    let date = formatDate(r.c[4]?.v || "");
 
     if(title){
       tilesHTML += `<span class="tile">${title}</span>`;
@@ -240,10 +223,6 @@ async function loadSheet(){
         <h3 onclick="openPopup('${title.replace(/'/g,"")}', \`${desc.replace(/`/g,"")}\`)">${title}</h3>
 
         <span class="read-more-btn" onclick="openPopup('${title.replace(/'/g,"")}', \`${desc.replace(/`/g,"")}\`)">Read More</span>
-
-        <div class="date-row">
-          <p>📅 ${date}</p>
-        </div>
       </div>`;
   });
 
