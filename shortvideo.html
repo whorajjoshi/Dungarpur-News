@@ -52,16 +52,22 @@ header{
 
 /* PERFECT CENTER PLAY BUTTON */
 .play-btn{
-  position:absolute;
-  top:35%;
-  left:50%;
-  transform:translate(-50%, -50%);
-  width:70px;height:70px;border-radius:50%;
-  background:rgba(0,0,0,0.45)
-  color:#fff;font-size:40px;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;z-index:5;
-  transition:0.3s ease;
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: yellow;          /* पीछे वाला गोल circle = YELLOW */
+  color: #fff;                 /* Play icon = WHITE */
+  font-size: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: 0.3s ease;
 }
 .play-btn.hide{opacity:0;pointer-events:none;}
 
