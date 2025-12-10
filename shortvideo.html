@@ -61,17 +61,17 @@ header{
   font-size:16px;color:#d60000;font-weight:700;margin:10px;
 }
 
-.video-card p{
-  font-size:13px;margin:0 10px 10px;color:#444;
+.date-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:0 10px 10px;
 }
 
-/* READ MORE BUTTON */
 .read-more-btn{
-  display:inline-block;
   background:#d60000;
   color:#fff;
-  padding:6px 10px;
-  margin-left:10px;
+  padding:5px 10px;
   border-radius:6px;
   font-size:12px;
   cursor:pointer;
@@ -213,9 +213,12 @@ async function loadSheet(){
           <source src="${videoUrl}">
         </video>
         <h3>${title}</h3>
-        <p>📅 ${date}</p>
-        <p>${desc.substring(0,80)}...</p>
-        <span class="read-more-btn" onclick="openPopup('${title.replace(/'/g,"")}', \`${desc.replace(/`/g,"")}\`)">Read More</span>
+
+        <div class="date-row">
+          <p>📅 ${date}</p>
+          <span class="read-more-btn" onclick="openPopup('${title.replace(/'/g,"")}', \`${desc.replace(/`/g,"")}\`)">Read More</span>
+        </div>
+
       </div>`;
   });
 
