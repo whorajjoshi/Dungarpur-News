@@ -53,7 +53,7 @@ header{
 /* PERFECT CENTER PLAY BUTTON */
 .play-btn{
   position:absolute;
-  top:35%;
+  top:50%;
   left:50%;
   transform:translate(-50%, -50%);
   width:70px;
@@ -67,10 +67,13 @@ header{
   justify-content:center;
   cursor:pointer;
   z-index:5;
-  transition:0.3s ease;
 }
 
-.play-btn.hide{opacity:0;pointer-events:none;}
+/* ▶ icon ko thoda right shift karo */
+.play-btn{
+  padding-left:4px;
+}
+
 
 /* THUMBNAIL BOX */
 .thumb-box{
