@@ -162,23 +162,30 @@ function ytEmbed(url){
   return `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&controls=1&autoplay=1`;
 }
 
-/* STOP ALL PLAYING VIDEOS */
+/* STOP ALL VIDEOS — FIXED VERSION */
 function stopAllVideos(){
   document.querySelectorAll(".player-frame").forEach(f=>{
-    f.src = "";
+    if(f.dataset.src){ f.src = ""; }
+    f.style.display = "none";
   });
+
+  /* Show all thumbnails back */
   document.querySelectorAll(".thumb-box").forEach(t=>{
     t.style.display="block";
   });
 }
 
-/* PLAY VIDEO */
+/* PLAY VIDEO — FIXED (NO GAP BUG) */
 function playVideo(card, url){
-  stopAllVideos();
+  stopAllVideos();  // FULL STOP clean
+
   let iframe = card.querySelector(".player-frame");
   let thumb = card.querySelector(".thumb-box");
+
+  iframe.dataset.src = url;
   iframe.src = url;
   iframe.style.display="block";
+
   thumb.style.display="none";
 }
 
@@ -222,7 +229,7 @@ async function loadSheet(){
         </div>
 
         <!-- IFRAME -->
-        <iframe class="player-frame" style="display:none;width:100%;height:220px;border:0;border-bottom:3px solid #d60000;"
+        <iframe class="player-frame" data-src="" style="display:none;width:100%;height:220px;border:0;border-bottom:3px solid #d60000;"
                 allow="autoplay" allowfullscreen></iframe>
 
         <h3 onclick="openPopup('${title.replace(/'/g,"")}',\`${desc.replace(/`/g,"")}\`)">${title}</h3>
