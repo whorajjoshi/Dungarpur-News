@@ -194,19 +194,32 @@ function ytEmbed(url){
     id = url.split("watch?v=")[1].split("&")[0];
   }
 
-  return `https://www.youtube.com/embed/${id}`;
+  return `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&controls=1`;
 }
 
+/* 🛑 STOP ALL VIDEOS BEFORE PLAYING NEW ONE */
+function stopAllVideos(){
+  document.querySelectorAll("iframe").forEach(frame => {
+    frame.src = frame.src;   // ← iframe reload = video stop
+  });
+}
+
+/* POPUP OPEN */
 function openPopup(title, desc){
+  stopAllVideos();  // ← सबसे important line
+
   document.getElementById("popupTitle").innerText = title;
   document.getElementById("popupDesc").innerText = desc;
   document.getElementById("popupBg").style.display = "flex";
 }
 
+/* POPUP CLOSE */
 function closePopup(){
+  stopAllVideos();
   document.getElementById("popupBg").style.display = "none";
 }
 
+/* LOAD SHEET DATA */
 async function loadSheet(){
   let res = await fetch(sheetURL);
   let text = await res.text();
@@ -233,6 +246,7 @@ async function loadSheet(){
 
         <iframe 
           src="${videoUrl}" 
+          allow="autoplay"
           allowfullscreen>
         </iframe>
 
@@ -245,9 +259,18 @@ async function loadSheet(){
 
   document.getElementById("videoGrid").innerHTML = videoHTML;
   document.getElementById("tileTrack").innerHTML = tilesHTML + tilesHTML;
+
+  /* 🛑 जब भी iframe clicked हो → बाकी सभी वीडियो रोक दो */
+  document.querySelectorAll("iframe").forEach(frame => {
+    frame.addEventListener("load", () => {
+      stopAllVideos();
+    });
+  });
 }
+
 loadSheet();
 </script>
+
 
 </body>
 </html>
