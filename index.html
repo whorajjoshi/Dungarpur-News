@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Dungarpur Live News</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -23,43 +24,12 @@ header{
 .time-box{font-size:12px;font-weight:600;color:#444;text-align:right;line-height:14px;}
 .time-box span{color:#d60000;font-weight:700;}
 
-/* TICKER */
-.tile-ticker{
-  background:#d60000;
-  padding:10px 0;
-  overflow:hidden;
-  white-space:nowrap;
-  display:flex;
-  align-items:center;
-}
-.tile-track{
-  display:inline-block;
-  animation:scrollTiles 120s linear infinite;
-}
-.tile{
-  background:#fff;
-  color:#d60000;
-  padding:6px 14px;
-  margin-right:12px;
-  border-radius:20px;
-  font-size:13px;
-  font-weight:700;
-  display:inline-block;
-  box-shadow:0 2px 4px rgba(0,0,0,0.2);
-}
-@keyframes scrollTiles{
-  0%{transform:translateX(0);}
-  100%{transform:translateX(-50%);}
-}
+.tile-ticker{background:#d60000;padding:10px 0;overflow:hidden;white-space:nowrap;display:flex;align-items:center;}
+.tile-track{display:inline-block;animation:scrollTiles 120s linear infinite;}
+.tile{background:#fff;color:#d60000;padding:6px 14px;margin-right:12px;border-radius:20px;font-size:13px;font-weight:700;display:inline-block;box-shadow:0 2px 4px rgba(0,0,0,0.2);}
+@keyframes scrollTiles{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
-.rate-box{
-  background:#0f0f0f;
-  padding:15px;
-  margin:4px 6px;
-  border-radius:14px;
-  border:2px solid #D4AF37;
-  box-shadow:0 0 12px rgba(212,175,55,0.4);
-}
+.rate-box{background:#0f0f0f;padding:15px;margin:4px 6px;border-radius:14px;border:2px solid #D4AF37;box-shadow:0 0 12px rgba(212,175,55,0.4);}
 .rate-box h3{font-size:15px;font-weight:700;color:#D4AF37;}
 .rate-box p{font-size:13px;margin-top:3px;color:#eee;}
 
@@ -69,7 +39,7 @@ header{
 .hero-left h2{font-size:18px;font-weight:800;color:#fff;line-height:22px;}
 
 .highlight-box{margin-top:10px;padding:0 12px;}
-.highlight{background:#fff;padding:12px;margin-bottom:10px;border-left:5px solid #d60000;border-radius:10px;}
+.highlight{background:#fff;padding:12px;margin-bottom:10px;border-left:5px solid #d60000;border-radius:10px;cursor:pointer;}
 
 .section-title{font-size:18px;font-weight:700;margin:20px 12px 10px;border-left:5px solid #d60000;padding-left:10px;}
 
@@ -82,54 +52,23 @@ header{
 
 footer{background:#111;color:#ccc;text-align:center;padding:12px;font-size:12px;margin-top:20px;}
 
-/* POPUP BG */
-.popup-bg{
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  background:rgba(0,0,0,0.7);display:none;justify-content:center;
-  align-items:center;z-index:9999;padding:20px;
-}
-
-/* POPUP BOX */
-.popup-box{
-  background:#fff;width:100%;max-width:420px;border-radius:12px;
-  padding:20px;box-shadow:0 0 20px rgba(0,0,0,0.4);animation:pop .3s ease;
-  max-height:90vh;overflow-y:auto;position:relative;
-}
+.popup-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);display:none;justify-content:center;align-items:center;z-index:9999;padding:20px;}
+.popup-box{background:#fff;width:100%;max-width:420px;border-radius:12px;padding:20px;box-shadow:0 0 20px rgba(0,0,0,0.4);animation:pop .3s ease;max-height:90vh;overflow-y:auto;position:relative;}
 @keyframes pop{0%{transform:scale(0.7);}100%{transform:scale(1);}}
 
-/* NEW TOP RIGHT CLOSE BUTTON */
-.popup-close{
-  position:absolute;
-  top:10px;
-  right:12px;
-  background:#d60000;
-  color:#fff;
-  border:none;
-  font-size:20px;
-  font-weight:700;
-  width:32px;
-  height:32px;
-  border-radius:50%;
-  cursor:pointer;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  box-shadow:0 0 6px rgba(0,0,0,0.3);
-}
+.popup-close{position:absolute;top:10px;right:12px;background:#d60000;color:#fff;border:none;font-size:20px;width:32px;height:32px;border-radius:50%;cursor:pointer;}
 
 .popup-img{width:100%;border-radius:10px;margin-bottom:10px;}
 .popup-title{font-size:20px;font-weight:800;color:#d60000;margin-bottom:10px;}
 .popup-text{font-size:14px;color:#333;line-height:20px;margin-bottom:15px;white-space:pre-line;}
 
-.close-btn,.share-btn{
-  padding:10px 14px;border:none;border-radius:8px;font-weight:600;
-  cursor:pointer;font-size:14px;
-}
+.btns{display:flex;justify-content:flex-end;}
+.close-btn,.share-btn{padding:10px 14px;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px;}
 .close-btn{background:#444;color:#fff;}
 .share-btn{background:#d60000;color:#fff;margin-left:10px;}
-.btns{display:flex;justify-content:flex-end;}
 </style>
 </head>
+
 <body>
 
 <header>
@@ -162,7 +101,7 @@ updateDateTime();
   <div class="tile-track" id="tileTrack">Loading...</div>
 </div>
 
-<div class="rate-box" id="rateBox">
+<div class="rate-box">
   <h3>💎 KESRI Jewellers — Live Rate</h3>
   <p id="rateText">Loading...</p>
 </div>
@@ -180,13 +119,9 @@ updateDateTime();
 
 <footer>© 2025 Dungarpur Live News</footer>
 
-<!-- POPUP -->
 <div class="popup-bg" id="popup">
   <div class="popup-box">
-
-    <!-- NEW TOP RIGHT CLOSE BUTTON -->
     <button class="popup-close" onclick="closePopup()">×</button>
-
     <img id="pImg" class="popup-img">
     <div class="popup-title" id="pTitle"></div>
     <div class="popup-text" id="pText"></div>
@@ -200,7 +135,7 @@ updateDateTime();
 <script>
 function openPopup(title,text,date="",img=""){
   document.getElementById("pTitle").innerText=title;
-  document.getElementById("pImg").src=img;
+  document.getElementById("pImg").src=img || "https://via.placeholder.com/300x170";
 
   let finalText="";
   if(date){finalText+="📅 "+date+"\n\n";}
@@ -210,129 +145,106 @@ function openPopup(title,text,date="",img=""){
   document.getElementById("popup").style.display="flex";
 }
 function closePopup(){document.getElementById("popup").style.display="none";}
-</script>
 
-<!-- SHARE -->
-<script>
 function shareNews() {
   let title = document.getElementById("pTitle").innerText;
-
   let shareData = {
     title: title,
     text: title + "\n\nRead more: https://dungarpurlivenews.in",
     url: "https://dungarpurlivenews.in"
   };
-
-  if (navigator.share) {
-    navigator.share(shareData).catch(() => {});
-  } else {
-    alert("Sharing not supported on this device");
-  }
+  if (navigator.share) navigator.share(shareData).catch(()=>{});
+  else alert("Sharing not supported");
 }
 </script>
 
 <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/16Lzi_aU5Rg1Py7A0PGbKNJ-1Yu7TjUDCMJa1_R7KnrA/gviz/tq?tqx=out:json";
 
+/* ✅ FINAL DATE FIX (IST TIMEZONE) */
 function formatDate(d){
   if(!d) return "";
+
   if(!isNaN(d)){
-    let jsDate = new Date((d-25569)*86400*1000);
-    return `${jsDate.getDate()} ${["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][jsDate.getMonth()]} ${jsDate.getFullYear()}`;
+    let utcDays = Math.floor(d - 25569);
+    let utcValue = utcDays * 86400;
+    let dateInfo = new Date(utcValue * 1000);
+
+    // IST fix (+5:30)
+    dateInfo = new Date(dateInfo.getTime() + (5.5 * 60 * 60 * 1000));
+
+    return `${dateInfo.getDate()} ${
+      ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][dateInfo.getMonth()]
+    } ${dateInfo.getFullYear()}`;
   }
+
   return d;
 }
 
 async function loadSheet(){
+try{
   let res = await fetch(sheetURL);
   let text = await res.text();
   let json = JSON.parse(text.substring(text.indexOf("{"), text.lastIndexOf("}")+1));
-  let rows = json.table.rows;
+  let rows = json.table.rows.reverse();
 
-  let tilesHTML = "";
-  let highlightHTML = "";
-  let newsHTML = "";
+  let tilesHTML="";
 
-  rows.reverse();
+  rows.forEach(r=>{
+    let type=r.c[0]?.v||"";
+    let gold=r.c[1]?.v||"";
+    let silver=r.c[2]?.v||"";
+    let title=r.c[3]?.v||"";
+    let img=r.c[4]?.v||"";
+    let desc=r.c[5]?.v||"";
+    let date=formatDate(r.c[6]?.v||"");
 
-  rows.forEach(r => {
-    let type = r.c[0]?.v || "";
-    let gold = r.c[1]?.v || "";
-    let silver = r.c[2]?.v || "";
-    let title = r.c[3]?.v || "";
-    let img = r.c[4]?.v || "";
-    let desc = r.c[5]?.v || "";
-    let date = formatDate(r.c[6]?.v || "");
-
-    let safeTitle = encodeURIComponent(title);
-    let safeDesc = encodeURIComponent(desc);
-
-    if(type === "rate"){
-      document.getElementById("rateText").innerHTML =
-        `Gold 22K: ₹${gold} / 10 gm | Silver: ₹${silver} / 10 gm`;
+    if(type==="rate"){
+      document.getElementById("rateText").innerHTML=`Gold 22K: ₹${gold} | Silver: ₹${silver}`;
     }
 
-    if(type === "hero"){
-      let heroDiv = document.getElementById("heroImg");
-      heroDiv.style.backgroundImage = `url('${img}')`;
-      document.getElementById("heroTitle").innerText = title;
-      heroDiv.onclick = () =>
-        openPopup(title, desc, date, img);
+    if(type==="hero"){
+      let hero=document.getElementById("heroImg");
+      hero.style.backgroundImage=`url('${img}')`;
+      document.getElementById("heroTitle").innerText=title;
+      hero.onclick=()=>openPopup(title,desc,date,img);
     }
 
-    if(type === "highlight"){
-      highlightHTML += `
-        <div class="highlight"
-             onclick="openPopup(
-               decodeURIComponent('${safeTitle}'),
-               decodeURIComponent('${safeDesc}'),
-               '${date}',
-               '${img}'
-             )">
-          ⚡ ${title}
+    if(type==="highlight"){
+      let div=document.createElement("div");
+      div.className="highlight";
+      div.innerText="⚡ "+title;
+      div.onclick=()=>openPopup(title,desc,date,img);
+      document.getElementById("highlightBox").appendChild(div);
+    }
+
+    if(type==="news"){
+      tilesHTML+=`<span class="tile">${title}</span>`;
+
+      let card=document.createElement("div");
+      card.className="card";
+      card.innerHTML=`
+        <img src="${img}" onerror="this.src='https://via.placeholder.com/300x170'">
+        <div class="content">
+          <h3>${title}</h3>
+          <p style="color:#d60000;font-size:12px;font-weight:700;">📅 ${date}</p>
+          <p>${(desc||"").substring(0,60)}...</p>
         </div>`;
-    }
-
-    if(type === "news"){
-      tilesHTML += `<span class="tile">${title}</span>`;
-
-      newsHTML += `
-        <div class="card"
-          onclick="openPopup(
-            decodeURIComponent('${safeTitle}'),
-            decodeURIComponent('${safeDesc}'),
-            '${date}',
-            '${img}'
-          )">
-          <img src="${img}">
-          <div class="content">
-            <h3>${title}</h3>
-            <p style="color:#d60000;font-size:12px;font-weight:700;margin-top:4px;">
-              📅 ${date}
-            </p>
-            <p>${desc.substring(0,60)}...</p>
-          </div>
-        </div>`;
+      card.onclick=()=>openPopup(title,desc,date,img);
+      document.getElementById("newsGrid").appendChild(card);
     }
   });
 
-  document.getElementById("highlightBox").innerHTML = highlightHTML;
-  document.getElementById("newsGrid").innerHTML = newsHTML;
-
-  let ticker = document.getElementById("tileTrack");
-
-  if(tilesHTML.trim() !== ""){
-    ticker.innerHTML = tilesHTML + tilesHTML;
-
-    ticker.style.animation = "none";
-    ticker.style.transform = "translateX(-50%)";
-
-    setTimeout(() => {
-      ticker.style.animation = "scrollTiles 120s linear infinite";
-    }, 50);
+  let ticker=document.getElementById("tileTrack");
+  if(tilesHTML){
+    ticker.innerHTML=tilesHTML+tilesHTML;
+    ticker.style.animation="none";
+    ticker.style.transform="translateX(-50%)";
+    setTimeout(()=>{ticker.style.animation="scrollTiles 120s linear infinite";},50);
   }
-}
 
+}catch(e){console.error("Sheet Error:",e);}
+}
 loadSheet();
 </script>
 
