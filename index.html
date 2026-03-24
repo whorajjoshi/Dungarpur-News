@@ -161,24 +161,8 @@ function shareNews() {
 <script>
 const sheetURL = "https://docs.google.com/spreadsheets/d/16Lzi_aU5Rg1Py7A0PGbKNJ-1Yu7TjUDCMJa1_R7KnrA/gviz/tq?tqx=out:json";
 
-/* ✅ FINAL DATE FIX (IST TIMEZONE) */
 function formatDate(d){
-  if(!d) return "";
-
-  if(!isNaN(d)){
-    let utcDays = Math.floor(d - 25569);
-    let utcValue = utcDays * 86400;
-    let dateInfo = new Date(utcValue * 1000);
-
-    // IST fix (+5:30)
-    dateInfo = new Date(dateInfo.getTime() + (5.5 * 60 * 60 * 1000));
-
-    return `${dateInfo.getDate()} ${
-      ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][dateInfo.getMonth()]
-    } ${dateInfo.getFullYear()}`;
-  }
-
-  return d;
+  return d || "";
 }
 
 async function loadSheet(){
@@ -197,7 +181,7 @@ try{
     let title=r.c[3]?.v||"";
     let img=r.c[4]?.v||"";
     let desc=r.c[5]?.v||"";
-    let date=formatDate(r.c[6]?.v||"");
+    let date=formatDate(r.c[6]?.f || "");
 
     if(type==="rate"){
       document.getElementById("rateText").innerHTML=`Gold 22K: ₹${gold} | Silver: ₹${silver}`;
